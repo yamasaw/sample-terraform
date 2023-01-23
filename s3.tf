@@ -8,8 +8,7 @@ data "aws_route53_zone" "route53_host_zone" {
 # 既にこの構成のTerraform以外でS3 Buketが作成されている場合以下のエラーになる
 # bucket: BucketAlreadyOwnedByYou
 resource "aws_s3_bucket" "s3-bucket" {
-    bucket = var.s3_bucket
-
+    bucket_prefix = var.front_domain
     tags = {
         Service = var.service_tag
         Enviroment = var.Enviroment
@@ -27,7 +26,7 @@ resource "aws_s3_bucket_public_access_block" "bucket_publick-access" {
 
 # 証明書の発行
 resource "aws_acm_certificate" "cert" {
-  provider = "aws.credentials"
+  provider = aws.credentials
   domain_name = var.front_domain
   validation_method = "DNS"
 
