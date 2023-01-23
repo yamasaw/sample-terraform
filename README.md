@@ -1,7 +1,7 @@
 # sample-terraform
 Terraformを動作させるためのお試し用のコマンド
 
-AWS CLIを動作させるので .aws/credentialsに `sample-terraform` の認証情報を追加する必要がある
+AWS CLIを動作させるので .aws/credentialsに `terraform` の認証情報を追加する必要がある
 
 # 実行方法
 ## .variables.tfの複製しvariables.tfを作成
