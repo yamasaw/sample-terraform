@@ -21,8 +21,8 @@ tfenv install 1.3.7
 # Usage
 コマンドの実行は、構築したいインフラをカレントディレクトリに指定して実行を行なってください
 
-## .variables.tfの複製しvariables.tfを作成(初回のみ)
-ファイル内に定義されている変数に値を定義していく
+## .terraform.tfvarsを複製しterraform.tfvarsをを作成(初回のみ)
+variables.tfに定義されている変数に入力する値を定義していく
 
 ## Terraformの初期化実行環境の構築(初回のみ)
 ```
@@ -60,3 +60,6 @@ https://registry.terraform.io/providers/hashicorp/aws/latest/docs
 
 プロバイダーはOpen SourceであるためGitHubに公開されています。わからない事があった場合ここで調べるのが情報の鮮度としても良い感じです  
 https://github.com/hashicorp/terraform-provider-aws
+
+命名規則はGoogle Cloudに基づいて作成
+https://cloud.google.com/docs/terraform/best-practices-for-terraform?hl=ja
