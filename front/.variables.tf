@@ -1,6 +1,6 @@
 # 変数ファイル
 variable "domain" {
-    description = ""
+    description = "コンテンツの配信を行うドメイン"
     type = string
     default = "xxxx.com"
 }
