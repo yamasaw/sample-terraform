@@ -1,5 +1,5 @@
 # ドメインの証明書の発行
-resource "aws_acm_certificate" "cert" {
+resource "aws_acm_certificate" "main" {
   provider = aws.credentials
   domain_name = var.domain
   validation_method = "DNS"
@@ -15,9 +15,9 @@ resource "aws_acm_certificate" "cert" {
 }
 
 # CNAMEレコードを作成
-resource "aws_route53_record" "cert_validation" {
+resource "aws_route53_record" "cert_cname" {
   for_each = {
-    for dvo in aws_acm_certificate.cert.domain_validation_options : dvo.domain_name => {
+    for dvo in aws_acm_certificate.main.domain_validation_options : dvo.domain_name => {
       name   = dvo.resource_record_name
       record = dvo.resource_record_value
       type   = dvo.resource_record_type
@@ -29,5 +29,5 @@ resource "aws_route53_record" "cert_validation" {
   records         = [each.value.record]
   ttl             = 300
   type            = each.value.type
-  zone_id         = data.aws_route53_zone.route53_host_zone.zone_id
+  zone_id         = data.aws_route53_zone.main.zone_id
 }
