@@ -1,15 +1,13 @@
 # ドメインの証明書の発行
 resource "aws_acm_certificate" "cert" {
   provider = aws.credentials
-  domain_name = var.front_domain
+  domain_name = var.domain
   validation_method = "DNS"
 
   # サブドメインも含めた証明書を発行したい場合
-  # subject_alternative_names = ["*.${var.front_domain}"]
+  # subject_alternative_names = ["*.${var.domain}"]
 
-  tags = {
-    Environment = var.Enviroment
-  }
+  tags = var.tags
 
   lifecycle {
     create_before_destroy = true

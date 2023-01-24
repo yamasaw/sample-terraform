@@ -1,18 +1,15 @@
 # 変数ファイル
-variable "front_domain" {
+variable "domain" {
     description = ""
     type = string
     default = "xxxx.com"
 }
 
-variable "service_tag" {
-    description = "リソースに付帯するサービスのタグ"
-    type = string
-    default = "SERVICE_NAME"
-}
-
-variable "Enviroment" {
-    description = "開発環境タグ[dev, stg, prod]"
-    type = string
-    default = "dev"
+variable "tags" {
+    description = "リソースに付帯するタグの一覧"
+    type = map
+    default = {
+        Service: "yamasaw_test"
+        Enviroment: "dev"
+    }
 }

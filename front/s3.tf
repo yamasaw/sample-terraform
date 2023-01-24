@@ -2,11 +2,8 @@
 # 既にこの構成のTerraform以外でS3 Buketが作成されている場合以下のエラーになる
 # bucket: BucketAlreadyOwnedByYou
 resource "aws_s3_bucket" "s3-bucket" {
-    bucket_prefix = var.front_domain
-    tags = {
-        Service = var.service_tag
-        Enviroment = var.Enviroment
-    }
+    bucket_prefix = var.domain
+    tags = var.tags
 }
 # バケットを非公開設定に
 resource "aws_s3_bucket_public_access_block" "bucket_publick-access" {

@@ -1,6 +1,6 @@
 # Route53ホストゾーンを取得
 data "aws_route53_zone" "route53_host_zone" {
-  name         = var.front_domain
+  name         = var.domain
   private_zone = false
 }
 
@@ -19,7 +19,7 @@ resource "aws_cloudfront_distribution" "bucket_distribution" {
   enabled = true
   is_ipv6_enabled = true
 
-  aliases = [ var.front_domain ]
+  aliases = [ var.domain ]
 
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD"]
@@ -66,7 +66,7 @@ resource "aws_cloudfront_origin_access_control" "default" {
 # Aレコードにディストリビューションのドメインを指定
 resource "aws_route53_record" "alias_record" {
    zone_id = data.aws_route53_zone.route53_host_zone.zone_id
-   name = var.front_domain
+   name = var.domain
    type = "A"
    alias {
     name = aws_cloudfront_distribution.bucket_distribution.domain_name
