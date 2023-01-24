@@ -12,7 +12,7 @@ resource "aws_cloudfront_distribution" "main" {
     origin_id = aws_s3_bucket.main.id
   }
 
-  # comment = ""
+  comment = var.service
 
   default_root_object = "index.html"
 
@@ -52,12 +52,14 @@ resource "aws_cloudfront_distribution" "main" {
     # https://aws.amazon.com/jp/cloudfront/custom-ssl-domains/
     ssl_support_method = "sni-only"
   }
+
+  tags = var.tags
 }
 
 # S3 Origin Access Control
 resource "aws_cloudfront_origin_access_control" "default" {
   name                              = aws_s3_bucket.main.arn
-  description                       = "Example Policy"
+  description                       = "${var.service} Policy"
   origin_access_control_origin_type = "s3"
   signing_behavior                  = "always"
   signing_protocol                  = "sigv4"
@@ -68,9 +70,10 @@ resource "aws_route53_record" "alias_record" {
   zone_id = data.aws_route53_zone.main.zone_id
   name = var.domain
   type = "A"
+
   alias {
-  name = aws_cloudfront_distribution.main.domain_name
-  zone_id = aws_cloudfront_distribution.main.hosted_zone_id
-  evaluate_target_health = false
+    name = aws_cloudfront_distribution.main.domain_name
+    zone_id = aws_cloudfront_distribution.main.hosted_zone_id
+    evaluate_target_health = false
   }
 }
