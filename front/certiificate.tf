@@ -1,6 +1,7 @@
 # ドメインの証明書の発行
 resource "aws_acm_certificate" "main" {
-  provider = aws.credentials
+  provider = aws.global
+
   domain_name = var.domain
   validation_method = "DNS"
 

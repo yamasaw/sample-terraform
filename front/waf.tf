@@ -1,9 +1,10 @@
 # ACL
 resource "aws_wafv2_web_acl" "main" {
+  provider = aws.global
+
   name = var.service
   description = "Web ACL ${var.service}"
   scope       = "CLOUDFRONT"
-  provider = aws.credentials
 
   default_action {
     block {}
@@ -41,7 +42,7 @@ resource "aws_wafv2_web_acl" "main" {
 }
 
 resource "aws_wafv2_ip_set" "main" {
-  provider = aws.credentials
+  provider = aws.global
 
   name = var.service
   description = "IP set ${var.service}"
