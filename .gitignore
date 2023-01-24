@@ -1,5 +1,7 @@
 .terraform/
 .terraform.lock.hcl
+.terraform.tfstate.lock.info
 # terraform.tfstate は インフラストラクチャーの実態を管理しているため、実運用する際はignoreから削除した方がいい
 terraform.tfstate
+terraform.tfstate.backup
 variables.tf
