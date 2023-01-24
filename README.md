@@ -55,8 +55,8 @@ terraform destory
 ```
 
 # 参照
-AWSのプロバイダーを利用した設定は以下のサイト利用すると良い(たまに情報が古いものがある)
+AWSのプロバイダーを利用した設定は以下のサイト利用すると良い(たまに情報が古いものがある)  
 https://registry.terraform.io/providers/hashicorp/aws/latest/docs
 
-プロバイダーはOpen SourceであるためGitHubに公開されています。わからない事があった場合ここで調べるのが情報の鮮度としても良い感じです
+プロバイダーはOpen SourceであるためGitHubに公開されています。わからない事があった場合ここで調べるのが情報の鮮度としても良い感じです  
 https://github.com/hashicorp/terraform-provider-aws
