@@ -11,12 +11,12 @@ terraform {
 provider "aws" {
   region  = "ap-northeast-1"
   # IAM profile
-  profile = "terraform"
+  profile = var.profile
 }
 
 provider "aws" {
   alias = "credentials" # SSL証明書はバージニア北部のリージョンに存在しないとCloudFrontで参照できない
   region  = "us-east-1"
   # IAM profile
-  profile = "terraform"
+  profile = var.profile
 }

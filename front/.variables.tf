@@ -1,4 +1,10 @@
 # 変数ファイル
+variable "profile" {
+    description = "AWS CLIの接続を行うのに利用するプロファイル名"
+    type = string
+    default = "terraform"
+}
+
 variable "domain" {
     description = "コンテンツの配信を行うドメイン"
     type = string
