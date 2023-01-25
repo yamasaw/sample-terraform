@@ -8,6 +8,14 @@ resource "aws_cloudfront_distribution" "main" {
 
   comment = "${var.service} frontend static content"
 
+  # エラーページの指定
+  custom_error_response {
+    error_code = 403
+    # エラーページの指定
+    # response_code = 404
+    # response_page_path = "/404/index.html"
+  }
+
   default_root_object = "index.html"
 
   enabled = true
@@ -19,6 +27,11 @@ resource "aws_cloudfront_distribution" "main" {
     allowed_methods  = ["GET", "HEAD"]
     cached_methods   = ["GET", "HEAD"]
     target_origin_id = aws_s3_bucket.main.id
+
+    function_association {
+      event_type   = "viewer-request"
+      function_arn = aws_cloudfront_function.main.arn
+    }
 
     forwarded_values {
       query_string = false
@@ -72,4 +85,13 @@ resource "aws_route53_record" "alias_record" {
     zone_id = aws_cloudfront_distribution.main.hosted_zone_id
     evaluate_target_health = false
   }
+}
+
+# index.htmlが省略されたときにindex.htmlを含めたurlにリダイレクトする
+resource "aws_cloudfront_function" "main" {
+  name    = "redirect-index"
+  runtime = "cloudfront-js-1.0"
+  comment = "redirect to index.html"
+  publish = true
+  code    = file("${path.module}/redirect.js")
 }
