@@ -2,7 +2,7 @@
 resource "aws_wafv2_web_acl" "main" {
   provider = aws.global
 
-  name = var.service
+  name = "${var.service}-acl"
   description = "Web ACL ${var.service}"
   scope       = "CLOUDFRONT"
 

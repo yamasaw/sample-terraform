@@ -9,6 +9,7 @@ terraform {
 }
 
 provider "aws" {
+  alias = "default"
   region  = "ap-northeast-1"
   # IAM profile
   profile = var.profile

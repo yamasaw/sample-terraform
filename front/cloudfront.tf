@@ -12,7 +12,7 @@ resource "aws_cloudfront_distribution" "main" {
     origin_id = aws_s3_bucket.main.id
   }
 
-  comment = var.service
+  comment = "${var.service} frontend static content"
 
   default_root_object = "index.html"
 
