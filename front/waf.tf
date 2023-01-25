@@ -53,7 +53,10 @@ resource "aws_wafv2_ip_set" "main" {
   tags = var.tags
 }
 
-resource "aws_wafv2_web_acl_association" "main" {
-  resource_arn = aws_cloudfront_distribution.main.arn
-  web_acl_arn = aws_wafv2_web_acl.main.arn
-}
+# aws_cloudfront_distributionの web_acl_idで関連づけてるので実行しなくても良さげ
+# むしろ名前のバリデーションで引っかかるため使えない
+# https://github.com/hashicorp/terraform-provider-aws/issues/28753#issuecomment-1376943601
+# resource "aws_wafv2_web_acl_association" "main" {
+#   resource_arn = aws_cloudfront_distribution.main.arn
+#   web_acl_arn = aws_wafv2_web_acl.main.arn
+# }

@@ -1,14 +1,8 @@
-# Route53ホストゾーンを取得
-data "aws_route53_zone" "main" {
-  name         = var.domain
-  private_zone = false
-}
-
 # ディストリビューションの作成
 resource "aws_cloudfront_distribution" "main" {
   origin {
     domain_name = aws_s3_bucket.main.bucket_regional_domain_name
-    origin_access_control_id = aws_cloudfront_origin_access_control.default.id
+    origin_access_control_id = aws_cloudfront_origin_access_control.main.id
     origin_id = aws_s3_bucket.main.id
   }
 
@@ -44,6 +38,8 @@ resource "aws_cloudfront_distribution" "main" {
     }
   }
 
+  tags = var.tags
+
   viewer_certificate {
     cloudfront_default_certificate = false
     acm_certificate_arn = aws_acm_certificate.main.arn
@@ -53,12 +49,12 @@ resource "aws_cloudfront_distribution" "main" {
     ssl_support_method = "sni-only"
   }
 
-  tags = var.tags
+  web_acl_id = aws_wafv2_web_acl.main.arn
 }
 
 # S3 Origin Access Control
-resource "aws_cloudfront_origin_access_control" "default" {
-  name                              = aws_s3_bucket.main.arn
+resource "aws_cloudfront_origin_access_control" "main" {
+  name                              = aws_s3_bucket.main.id
   description                       = "${var.service} Policy"
   origin_access_control_origin_type = "s3"
   signing_behavior                  = "always"

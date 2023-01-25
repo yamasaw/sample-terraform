@@ -5,7 +5,7 @@ variable "profile" {
 }
 
 variable "service" {
-  description = "サービス識別用の文字列"
+  description = "サービス識別用の文字列。英数字および`-`で記載する"
   type = string
 }
 
