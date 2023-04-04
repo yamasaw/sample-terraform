@@ -11,13 +11,12 @@ variable "restraint_addresses" {
 }
 
 variable "profile" {
-  description = ""
+  description = "AWSに接続を行うプロファイル"
   type = string
 }
 
 variable "tags" {
-  description = ""
+  description = "リソースに付帯するタグの一覧(Optional)"
   type = map
-
   default = {}
 }

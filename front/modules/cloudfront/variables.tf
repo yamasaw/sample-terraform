@@ -10,7 +10,7 @@ variable "domain" {
 }
 
 variable "s3_bucket" {
-  description = ""
+  description = "CloudFrontに紐づけるS3 Buket"
   type = object({
     id = string
     bucket_regional_domain_name = string
@@ -18,11 +18,12 @@ variable "s3_bucket" {
 }
 
 variable "acm_certificate_arn" {
-  description = ""
+  description = "代替ドメインの証明書"
   type = string
 }
 
 variable "wafv2_web_acl_arn" {
-  description = ""
+  description = "CloudFrontを制限するWaf"
   type = string
+  nullable = true
 }

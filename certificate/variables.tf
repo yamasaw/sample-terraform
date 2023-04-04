@@ -1,6 +1,6 @@
 # 変数ファイル
 variable "profile" {
-  description = ""
+  description = "AWSに接続を行うプロファイル"
   type = string
 }
 

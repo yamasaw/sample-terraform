@@ -5,7 +5,7 @@ variable "service" {
 }
 
 variable "cloudfront_distribution_arn" {
-  description = ""
+  description = "アクセスを許容するCloudFrontでィストリビュージョン"
   type = string
 }
 
