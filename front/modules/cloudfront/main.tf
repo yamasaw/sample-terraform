@@ -24,12 +24,12 @@ resource "aws_cloudfront_distribution" "main" {
   aliases = [ var.domain ]
 
   default_cache_behavior {
-    allowed_methods  = ["GET", "HEAD"]
-    cached_methods   = ["GET", "HEAD"]
+    allowed_methods = ["GET", "HEAD"]
+    cached_methods = ["GET", "HEAD"]
     target_origin_id = var.s3_bucket.id
 
     function_association {
-      event_type   = "viewer-request"
+      event_type = "viewer-request"
       function_arn = aws_cloudfront_function.main.arn
     }
 
@@ -65,16 +65,16 @@ resource "aws_cloudfront_distribution" "main" {
 
 # S3 Origin Access Control
 resource "aws_cloudfront_origin_access_control" "main" {
-  name                              = var.s3_bucket.id
-  description                       = "${var.service} Policy"
+  name = var.s3_bucket.id
+  description = "${var.service} Policy"
   origin_access_control_origin_type = "s3"
-  signing_behavior                  = "always"
-  signing_protocol                  = "sigv4"
+  signing_behavior = "always"
+  signing_protocol = "sigv4"
 }
 
 # Route53ホストゾーンを取得
 data "aws_route53_zone" "main" {
-  name         = var.domain
+  name = var.domain
   private_zone = false
 }
 
@@ -93,9 +93,9 @@ resource "aws_route53_record" "alias_record" {
 
 # index.htmlが省略されたときにindex.htmlを含めたurlにリダイレクトする
 resource "aws_cloudfront_function" "main" {
-  name    = "redirect-index"
+  name = "redirect-index"
   runtime = "cloudfront-js-1.0"
   comment = "redirect to index.html"
   publish = true
-  code    = file("${path.module}/redirect.js")
+  code = file("${path.module}/redirect.js")
 }
