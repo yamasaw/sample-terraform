@@ -1,9 +1,9 @@
 # ディストリビューションの作成
 resource "aws_cloudfront_distribution" "main" {
   origin {
-    domain_name = aws_s3_bucket.main.bucket_regional_domain_name
+    domain_name = var.s3_bucket.bucket_regional_domain_name
     origin_access_control_id = aws_cloudfront_origin_access_control.main.id
-    origin_id = aws_s3_bucket.main.id
+    origin_id = var.s3_bucket.id
   }
 
   comment = "${var.service} frontend static content"
@@ -26,7 +26,7 @@ resource "aws_cloudfront_distribution" "main" {
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD"]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = aws_s3_bucket.main.id
+    target_origin_id = var.s3_bucket.id
 
     function_association {
       event_type   = "viewer-request"
@@ -51,27 +51,31 @@ resource "aws_cloudfront_distribution" "main" {
     }
   }
 
-  tags = var.tags
-
   viewer_certificate {
     cloudfront_default_certificate = false
-    acm_certificate_arn = aws_acm_certificate.main.arn
+    acm_certificate_arn = var.acm_certificate_arn
     minimum_protocol_version = "TLSv1.2_2021" # 推奨値を指定
     # SNI(名前ベース)のSSL機能を使用する。
     # https://aws.amazon.com/jp/cloudfront/custom-ssl-domains/
     ssl_support_method = "sni-only"
   }
 
-  web_acl_id = aws_wafv2_web_acl.main.arn
+  web_acl_id = var.wafv2_web_acl_arn
 }
 
 # S3 Origin Access Control
 resource "aws_cloudfront_origin_access_control" "main" {
-  name                              = aws_s3_bucket.main.id
+  name                              = var.s3_bucket.id
   description                       = "${var.service} Policy"
   origin_access_control_origin_type = "s3"
   signing_behavior                  = "always"
   signing_protocol                  = "sigv4"
+}
+
+# Route53ホストゾーンを取得
+data "aws_route53_zone" "main" {
+  name         = var.domain
+  private_zone = false
 }
 
 # Aレコードにディストリビューションのドメインを指定

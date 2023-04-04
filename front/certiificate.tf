@@ -1,3 +1,9 @@
+# Route53ホストゾーンを取得
+data "aws_route53_zone" "main" {
+  name         = var.domain
+  private_zone = false
+}
+
 # ドメインの証明書の発行
 resource "aws_acm_certificate" "main" {
   provider = aws.global
@@ -7,8 +13,6 @@ resource "aws_acm_certificate" "main" {
 
   # サブドメインも含めた証明書を発行したい場合
   # subject_alternative_names = ["*.${var.domain}"]
-
-  tags = var.tags
 
   lifecycle {
     create_before_destroy = true

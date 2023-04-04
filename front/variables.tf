@@ -14,7 +14,7 @@ variable "domain" {
   type = string
 }
 
-variable "addresses" {
+variable "restraint_addresses" {
   description = "制限を行うIPアドレス"
   type = list
   default = []

@@ -37,8 +37,6 @@ resource "aws_wafv2_web_acl" "main" {
     metric_name                = "${var.service}-metric"
     sampled_requests_enabled   = false
   }
-
-  tags = var.tags
 }
 
 resource "aws_wafv2_ip_set" "main" {
@@ -48,9 +46,7 @@ resource "aws_wafv2_ip_set" "main" {
   description = "IP set ${var.service}"
   scope = "CLOUDFRONT"
   ip_address_version = "IPV4"
-  addresses = var.addresses
-
-  tags = var.tags
+  addresses = var.restraint_addresses
 }
 
 # aws_cloudfront_distributionの web_acl_idで関連づけてるので実行しなくても良さげ

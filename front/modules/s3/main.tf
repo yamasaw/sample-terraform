@@ -1,9 +1,11 @@
+# デフォルトで接続する AWS Regionを取得する
+data "aws_region" "default" { }
+
 # バケットを作成
 # 既にこの構成のTerraform以外でS3 Buketが作成されている場合以下のエラーになる
 # bucket: BucketAlreadyOwnedByYou
 resource "aws_s3_bucket" "main" {
   bucket_prefix = "${var.service}-${data.aws_region.default.name}"
-  tags = var.tags
 }
 # バケットを非公開設定に
 resource "aws_s3_bucket_public_access_block" "main" {
@@ -26,6 +28,7 @@ data "aws_iam_policy_document" "s3_policy" {
     sid = "1"
     actions = [ "s3:GetObject" ]
     resources = [ "${aws_s3_bucket.main.arn}/*" ]
+
     principals {
       type = "Service"
       identifiers = [ "cloudfront.amazonaws.com" ]
@@ -33,7 +36,7 @@ data "aws_iam_policy_document" "s3_policy" {
     condition {
       test = "StringEquals"
       variable = "aws:SourceArn"
-      values = [ aws_cloudfront_distribution.main.arn ]
+      values = [ var.cloudfront_distribution_arn ]
     }
   }
 }
